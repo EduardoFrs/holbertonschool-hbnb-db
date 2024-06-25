@@ -1,30 +1,21 @@
-"""
-City related functionality
-"""
-
-from src.models.base import Base
+from src import db
 from src.models.country import Country
 
+class City(db.Model):
+    __tablename__ = 'city'
 
-class City(Base):
-    """City representation"""
+    id = db.Column(db.String(36), primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    country_code = db.Column(db.String(10), db.ForeignKey('country.code'), nullable=False, unique=True)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
-    name: str
-    country_code: str
+    country = db.relationship('Country', backref=db.backref('cities', lazy=True))
 
-    def __init__(self, name: str, country_code: str, **kw) -> None:
-        """Dummy init"""
-        super().__init__(**kw)
-
-        self.name = name
-        self.country_code = country_code
-
-    def __repr__(self) -> str:
-        """Dummy repr"""
+    def __repr__(self):
         return f"<City {self.id} ({self.name})>"
 
-    def to_dict(self) -> dict:
-        """Dictionary representation of the object"""
+    def to_dict(self):
         return {
             "id": self.id,
             "name": self.name,
@@ -34,26 +25,21 @@ class City(Base):
         }
 
     @staticmethod
-    def create(data: dict) -> "City":
+    def create(city_data):
         """Create a new city"""
-        from src.persistence import repo
-
-        country = Country.get(data["country_code"])
-
+        country_code = city_data.get('country_code')
+        country = Country.get(country_code)
         if not country:
             raise ValueError("Country not found")
 
-        city = City(**data)
-
-        repo.save(city)
-
-        return city
+        new_city = City(**city_data)
+        db.session.add(new_city)
+        db.session.commit()
+        return new_city
 
     @staticmethod
-    def update(city_id: str, data: dict) -> "City":
+    def update(city_id, data):
         """Update an existing city"""
-        from src.persistence import repo
-
         city = City.get(city_id)
 
         if not city:
@@ -62,6 +48,5 @@ class City(Base):
         for key, value in data.items():
             setattr(city, key, value)
 
-        repo.update(city)
-
+        db.session.commit()
         return city
