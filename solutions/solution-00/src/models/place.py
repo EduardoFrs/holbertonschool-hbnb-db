@@ -58,7 +58,7 @@ class Place(db.Model):
         return new_place
 
     @staticmethod
-    def update(place_id: str, data: dict) -> "Place | None":
+    def update(place_id, data):
         """Update an existing place"""
         place = Place.query.get(place_id)
 
