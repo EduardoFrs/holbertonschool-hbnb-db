@@ -2,10 +2,9 @@ from src import db
 from src.models.user import User
 from src.models.city import City
 
-class Place(db.Model):
+class Place(Base):
     __tablename__= 'place'
 
-    id = db.Column(db.String(36), primary_key=True)
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=True)
     address = db.Column(db.String, nullable=False)
@@ -17,8 +16,6 @@ class Place(db.Model):
     number_of_rooms = db.Column(db.Integer, nullable=False)
     number_of_bathrooms = db.Column(db.Integer, nullable=False)
     max_guests = db.Column(db.Integer, nullable=False)
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
     def __repr__(self) -> str:
         return f"<Place {self.id} ({self.name})>"

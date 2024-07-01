@@ -1,12 +1,9 @@
 from src import db
 
-class Amenity(db.Model):
+class Amenity(Base):
     __tablename__ = 'amenity'
 
-    id = db.Column(db.String(36), primary_key=True)
     name = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
     def __repr__(self):
         return f"<Amenity {self.id} ({self.name})>"

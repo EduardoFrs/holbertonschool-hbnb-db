@@ -1,9 +1,8 @@
 from src import db
 
-class Country(db.Model):
+class Country(Base):
     __tablename__ = 'country'
 
-    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     code = db.Column(db.String(10), nullable=False, unique=True)
 

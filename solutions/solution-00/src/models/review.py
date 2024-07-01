@@ -1,15 +1,12 @@
 from src import db
 
-class Review(db.Model):
+class Review(Base):
     __tablename__ = 'review'
 
-    id = db.Column(db.String(36), primary_key=True)
     place_id = db.Column(db.String(36), primary_key=True)
     user_id = db.Column(db.String(36), primary_key=True)
     comment = db.Column(db.String, nullable=True)
     rating = db.Column(db.Float, nullable=False)
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
     def __repr__(self):
         return f"<Review {self.id} - '{self.comment[:25]}...'>"

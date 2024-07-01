@@ -1,14 +1,11 @@
 from src import db
 from src.models.country import Country
 
-class City(db.Model):
+class City(Base):
     __tablename__ = 'city'
 
-    id = db.Column(db.String(36), primary_key=True)
     name = db.Column(db.String, nullable=False)
     country_code = db.Column(db.String(10), db.ForeignKey('country.code'), nullable=False, unique=True)
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
     country = db.relationship('Country', backref=db.backref('cities', lazy=True))
 
