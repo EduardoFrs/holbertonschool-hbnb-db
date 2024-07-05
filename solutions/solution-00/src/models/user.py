@@ -1,15 +1,14 @@
 from src.models.base import Base
 from src import db
-import sqlalchemy as sa
 
 class User(Base, db.Model):
     __tablename__ = 'users'
 
-    email = sa.Column(sa.String(120), unique=True, nullable=False)
-    password = sa.Column(sa.String(128), nullable=False)  # Ensure secure storage
-    first_name = sa.Column(sa.String(50), nullable=False)
-    last_name = sa.Column(sa.String(50), nullable=False)
-    is_admin = sa.Column(sa.Boolean, default=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(128), nullable=False)  # Ensure secure storage
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
 
     def __init__(self, email: str, first_name: str, last_name: str, **kw):
         """Dummy init"""
@@ -45,7 +44,7 @@ class User(Base, db.Model):
 
         new_user = User(**user)
 
-        repo.save(new_user)
+        repo.dbve(new_user)
 
         return new_user
 
