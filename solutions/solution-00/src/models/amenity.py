@@ -1,3 +1,4 @@
+from src.models.base import Base
 from src import db
 
 class Amenity(Base):

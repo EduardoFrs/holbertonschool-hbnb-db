@@ -1,4 +1,5 @@
 from src import db
+from src.models.base import Base
 
 class Review(Base):
     __tablename__ = 'review'
