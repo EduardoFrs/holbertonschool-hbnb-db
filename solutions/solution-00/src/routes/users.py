@@ -6,7 +6,7 @@ from flask import Blueprint
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 from werkzeug.security import check_password_hash
 from src.models.user import User
-from src import bcrypt
+from flask_bcrypt import Bcrypt
 from src.controllers.users import (
     create_user,
     delete_user,
